@@ -6,6 +6,10 @@
 
 #include <unistd.h>
 
+constexpr int ONE_MILLION = 1000000;
+constexpr int FIVE_MILLION = 5000000;
+constexpr int TEN_MILLION = 10000000;
+
 struct Data {
   int data[100];
 };
@@ -23,20 +27,20 @@ void tfun(int arg) {
   std::cout << "Executing tfun(), will sleep " << arg << " microseconds\n";
   while (arg > 0) {
     std::cout << "usleep()...\n";
-    int result = usleep(1000000);
+    int result = usleep(ONE_MILLION);
     if (result == -1) {
       std::cerr << "usleep error: " << strerror(errno) << '\n';
       break;
     }
-    arg -= 1000000;
+    arg -= ONE_MILLION;
   }
   std::cout << "Leaving tfun()\n";
 }
 
 int main()
 {
-  std::thread t(tfun, 10000000);
-  sleep(5);
+  std::thread t(tfun, TEN_MILLION);
+  usleep(FIVE_MILLION);
   auto handle = t.native_handle();
   t.detach();
   //t.join();
