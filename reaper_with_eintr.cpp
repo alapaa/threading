@@ -101,6 +101,11 @@ int main(int argc, char* argv[]) {
   std::string mode = std::string(argv[1]);
 
   setup_signals();
+  // Test that handler works...
+  kill(getpid(), SIGUSR1);
+  kill(getpid(), SIGUSR2);
+  kill(getpid(), SIGRTMIN+1);
+  
   std::thread t(tfun, TEN_MILLION);
   usleep(FIVE_MILLION);
   auto handle = t.native_handle();
