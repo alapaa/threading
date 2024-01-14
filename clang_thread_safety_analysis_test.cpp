@@ -12,6 +12,9 @@ public:
     MutexLocker lg(&mu_);
     val_ = val;
   }
+  void set_val_with_race_condition(int val) {
+    val_ = val;
+  }
 private:
   Mutex mu_;
   int val_ GUARDED_BY(mu_);
@@ -21,4 +24,5 @@ private:
 int main() {
   Foo foo;
   foo.set_val(5);
+  foo.set_val_with_race_condition(5);
 }
